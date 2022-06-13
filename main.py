@@ -10,9 +10,12 @@ Command: python3 main.py
 Author: samdotxml @github
 License: MIT
 """
-from core import *
-from case import *
-from sshEditor import *
+#from core import *
+#from case import *
+#from sshEditor import *
+from lib.core import *
+from lib.case import *
+from lib.sshEditor import *
 from sys import platform
 import inquirer
 
