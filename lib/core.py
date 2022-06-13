@@ -38,7 +38,7 @@ def createKeys(data):
 
     pubkeyFile = open(pubKeyFileName, "w")
     pubkeyFile.write(keys[1])
-    
+
     privkeyFile.close()
     pubkeyFile.close()
 
@@ -60,15 +60,15 @@ def addConfigProfile(username, email, privkeypath, pubkeypath):
 
     json_object = json.dumps(data, indent = 4)
     with open('config/config.json', 'w') as outfile:
-            outfile.write(json_object)
-            outfile.close()
+        outfile.write(json_object)
+        outfile.close()
 
 #read config json and return all profiles
 def getProfiles():
     f = open('config/config.json')
     data = json.load(f)
     f.close()
-    
+
     profiles = []
     for x in data["profiles"]:
         profiles.append({"username" : x["Github Username"], "email" : x["Github E-Mail"]})
@@ -88,15 +88,15 @@ def runGitBashAgent(keyPath):
     keyPath = str(Path.home().as_posix()) + "/.ssh/" + keyPath
     path = Path().absolute().as_posix()
     scriptPath = path + "/ssh-agent.sh"
-    p = subprocess.Popen(["C:\Program Files\Git\git-bash.exe", scriptPath, keyPath], 
-                     bufsize=-1, 
-                     executable=None, 
-                     stdin=subprocess.PIPE, 
-                     stdout=subprocess.PIPE, 
-                     stderr=subprocess.PIPE, 
-                     preexec_fn=None, 
-                     close_fds=True, 
-                     shell=False, 
+    p = subprocess.Popen(["C:\Program Files\Git\git-bash.exe", scriptPath, keyPath],
+                     bufsize=-1,
+                     executable=None,
+                     stdin=subprocess.PIPE,
+                     stdout=subprocess.PIPE,
+                     stderr=subprocess.PIPE,
+                     preexec_fn=None,
+                     close_fds=True,
+                     shell=False,
                      cwd=path,
                      )
     p.wait()

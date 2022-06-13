@@ -3,7 +3,7 @@ from sshconf import read_ssh_config
 # add host entry to ~/.ssh/config
 def changeHost(path, username):
     import os
-    
+
     if not os.path.isfile(path):
         open(path, 'w').close()
 

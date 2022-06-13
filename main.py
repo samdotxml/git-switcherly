@@ -10,14 +10,11 @@ Command: python3 main.py
 Author: samdotxml @github
 License: MIT
 """
-#from core import *
-#from case import *
-#from sshEditor import *
+from sys import platform
+import inquirer
 from lib.core import *
 from lib.case import *
 from lib.sshEditor import *
-from sys import platform
-import inquirer
 
 def menuSelect():
     questions = [
@@ -33,7 +30,7 @@ def selectIdentity(profiles):
     choices = []
     for x in profiles:
         choices.append(x["username"])
-    
+
     questions = [
     inquirer.List('selection',
                     message="Choose the Github Account",
@@ -58,7 +55,7 @@ def executeShell():
         inquirer.Confirm('confirm',
                     message="Run the command manually or not?", default=True),
                 ]
-    
+
     return inquirer.prompt(questions)
 
 def main():
@@ -66,7 +63,7 @@ def main():
     if(not folderExist()):
         print("Failed to find ~/.ssh folder. Can't continue")
         exit()
-    
+
     while(True):
         selection = menuSelect()
         while switch(selection):
@@ -92,7 +89,7 @@ def main():
                 print("(2) Now the ssh-agent on your machine needs to add the key to the credential manager, you have following options:")
                 print("\t(i) Run following command: ssh-add {cmd}".format(cmd=cmd))
                 print("\t(ii) Use the automated key adder (BETA)\n")
-                
+
                 if(executeShell()['confirm']):
                     if platform == "linux" or platform == "linux2":
                         os.system("eval `ssh-agent -s`")
