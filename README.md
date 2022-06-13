@@ -7,7 +7,7 @@ I have tested the Tool on Windows. The inquirer package can sometimes be buggy i
 
 Windows 10 | Linux | MacOS
 :------------ | :-------------| :-------------|
-:heavy_check_mark: | :white_check_mark: |  :no_entry:
+:heavy_check_mark: | :heavy_check_mark: |  :no_entry:
 
 ## Why?
 Git Switcherly is a simple tool I wrote. I always had issues switching accounts on my Windows-Computer. I quickly sought for the best practices in regard to GitHub account management on a single PC. Upon looking at some tutorials, the whole (tedious) process annoyed me. I wrote a little tool that makes my life much easier. Maybe someone else's too.
