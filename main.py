@@ -10,13 +10,13 @@ Command: python3 main.py
 Author: samdotxml @github
 License: MIT
 """
-from sys import platform
+import sys
 import inquirer
 from lib.core import *
 from lib.case import *
 from lib.sshEditor import *
 
-def menuSelect():
+def menu_select():
     questions = [
     inquirer.List('selection',
                     message="What size do you need?",
@@ -26,10 +26,10 @@ def menuSelect():
     answers = inquirer.prompt(questions)
     return answers['selection']
 
-def selectIdentity(profiles):
+def select_identity_prompt(profiles):
     choices = []
-    for x in profiles:
-        choices.append(x["username"])
+    for profile in profiles:
+        choices.append(profile["username"])
 
     questions = [
     inquirer.List('selection',
@@ -40,7 +40,7 @@ def selectIdentity(profiles):
     answers = inquirer.prompt(questions)
     return answers['selection']
 
-def createIdentity():
+def create_identity_prompt():
     questions = [
         inquirer.Text('githubName',
                     message="What's your Github username?"),
@@ -50,7 +50,7 @@ def createIdentity():
 
     return inquirer.prompt(questions)
 
-def executeShell():
+def execute_shell_prompt():
     questions = [
         inquirer.Confirm('confirm',
                     message="Run the command manually or not?", default=True),
@@ -60,28 +60,28 @@ def executeShell():
 
 def main():
     """ Main entry point of the app """
-    if(not folderExist()):
+    if(not folder_exist()):
         print("Failed to find ~/.ssh folder. Can't continue")
-        exit()
+        sys.exit()
 
     while(True):
-        selection = menuSelect()
+        selection = menu_select()
         while switch(selection):
             if case("Create Identity"):
-                details = createIdentity()
-                createKeys(details)
-                if not checkFileExistence(details["githubName"]):
+                details = create_identity_prompt()
+                create_keys(details)
+                if not check_file_existence(details["githubName"]):
                     print("The SSH Keys were not saved to ~/.ssh folder. Ending script")
-                    exit()
+                    sys.exit()
                 print("\n[Success] Created SSH Keys")
                 print("[Information] Make sure to change your identity\n")
                 break
             if case("Change Identity"):
-                profiles = getProfiles()
+                profiles = get_profiles()
                 if(len(profiles) == 0):
                     print("No accounts in your config")
                     break
-                selection = selectIdentity(profiles)
+                selection = select_identity_prompt(profiles)
                 cmd = "~/.ssh/id_rsa_{uname}".format(uname=selection)
                 print("\nYou selected {uname}".format(uname=selection))
                 print("You need to follow these steps:")
@@ -90,26 +90,25 @@ def main():
                 print("\t(i) Run following command: ssh-add {cmd}".format(cmd=cmd))
                 print("\t(ii) Use the automated key adder (BETA)\n")
 
-                if(executeShell()['confirm']):
-                    if platform == "linux" or platform == "linux2":
+                if(execute_shell_prompt()['confirm']):
+                    if sys.platform in (('linux', 'linux2')):
                         os.system("eval `ssh-agent -s`")
-                        os.system("ssh-add {cmd}".format(uname=selection))
-                    elif platform == "win32":
-                        runGitBashAgent("id_rsa_{uname}".format(uname=selection))
+                        os.system("ssh-add {cmd}".format(cmd=selection))
+                    elif sys.platform == "win32":
+                        run_git_bash_agent("id_rsa_{uname}".format(uname=selection))
                     print("Done executing the commands. If it did not work, try entering the commands manually!")
                 else:
                     print("Make sure to do all the steps")
 
                 print("Editing ssh configuration file")
-                cfgPath = getFolder() + "/config"
-                changeHost(cfgPath, selection)
+                cfg_path = get_folder() + "/config"
+                changeHost(cfg_path, selection)
                 print("Done!")
                 break
             if case("Exit"):
                 print("Goodbye!")
-                exit()
+                sys.exit()
 
 
 if __name__ == "__main__":
-    """ This is executed when run from the command line """
     main()

@@ -1,12 +1,12 @@
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.backends import default_backend
-from pathlib import Path
 import os
 import json
 import subprocess
+from pathlib import Path
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.backends import default_backend
 
-def generateKeyStr():
+def generate_key_str():
     # generate private/public key pair
     key = rsa.generate_private_key(backend=default_backend(), public_exponent=65537, \
         key_size=2048)
@@ -26,37 +26,37 @@ def generateKeyStr():
     return [private_key_str, public_key_str]
 
 #create keys and save them to file
-def createKeys(data):
+def create_keys(data):
     username = data['githubName']
     email = data['githubEmail']
-    keys = generateKeyStr()
-    privKeyFileName = getFolder() + "id_rsa_{uname}".format(uname=username)
-    pubKeyFileName = getFolder() + "id_rsa_{uname}.pub".format(uname=username)
+    keys = generate_key_str()
+    priv_key_filename = get_folder() + "id_rsa_{uname}".format(uname=username)
+    pub_key_filename = get_folder() + "id_rsa_{uname}.pub".format(uname=username)
 
-    privkeyFile = open(privKeyFileName, "w")
-    privkeyFile.write(keys[0])
+    priv_key_file = open(priv_key_filename, "w")
+    priv_key_file.write(keys[0])
 
-    pubkeyFile = open(pubKeyFileName, "w")
-    pubkeyFile.write(keys[1])
+    pub_key_file = open(pub_key_filename, "w")
+    pub_key_file.write(keys[1])
 
-    privkeyFile.close()
-    pubkeyFile.close()
+    priv_key_file.close()
+    pub_key_file.close()
 
-    addConfigProfile(username, email,"id_rsa_{uname}".format(uname=username), "id_rsa_{uname}.pub".format(uname=username))
+    add_config_profile(username, email,"id_rsa_{uname}".format(uname=username), "id_rsa_{uname}.pub".format(uname=username))
 
 #check if file exists
-def checkFileExistence(username):
-    fileName = getFolder() + "id_rsa_{uname}".format(uname=username)
-    return os.path.isfile(fileName)
+def check_file_existence(username):
+    filename = get_folder() + "id_rsa_{uname}".format(uname=username)
+    return os.path.isfile(filename)
 
 #add config entry of profile
-def addConfigProfile(username, email, privkeypath, pubkeypath):
-    f = open('config/config.json')
-    data = json.load(f)
-    f.close()
+def add_config_profile(username, email, privkeypath, pubkeypath):
+    file = open('config/config.json')
+    data = json.load(file)
+    file.close()
 
-    dataBlock = {"Github Username" : username, "Github E-Mail" : email, "Private Key" : privkeypath, "Public Key" : pubkeypath}
-    data['profiles'].append(dataBlock)
+    data_block = {"Github Username" : username, "Github E-Mail" : email, "Private Key" : privkeypath, "Public Key" : pubkeypath}
+    data['profiles'].append(data_block)
 
     json_object = json.dumps(data, indent = 4)
     with open('config/config.json', 'w') as outfile:
@@ -64,31 +64,31 @@ def addConfigProfile(username, email, privkeypath, pubkeypath):
         outfile.close()
 
 #read config json and return all profiles
-def getProfiles():
-    f = open('config/config.json')
-    data = json.load(f)
-    f.close()
+def get_profiles():
+    file = open('config/config.json')
+    data = json.load(file)
+    file.close()
 
     profiles = []
-    for x in data["profiles"]:
-        profiles.append({"username" : x["Github Username"], "email" : x["Github E-Mail"]})
+    for profile in data["profiles"]:
+        profiles.append({"username" : profile["Github Username"], "email" : profile["Github E-Mail"]})
     return profiles
 
 #check if ssh folder exists
-def folderExist():
-    sshFolderPath = str(Path.home()) + "/.ssh"
-    return os.path.isdir(sshFolderPath)
+def folder_exist():
+    ssh_folder_path = str(Path.home()) + "/.ssh"
+    return os.path.isdir(ssh_folder_path)
 
 #get ssh folder
-def getFolder():
+def get_folder():
     return str(Path.home().as_posix()) + "/.ssh/"
 
 #run git bash with command specified
-def runGitBashAgent(keyPath):
-    keyPath = str(Path.home().as_posix()) + "/.ssh/" + keyPath
+def run_git_bash_agent(key_path):
+    key_path = str(Path.home().as_posix()) + "/.ssh/" + key_path
     path = Path().absolute().as_posix()
-    scriptPath = path + "/ssh-agent.sh"
-    p = subprocess.Popen(["C:\Program Files\Git\git-bash.exe", scriptPath, keyPath],
+    script_path = path + "/ssh-agent.sh"
+    proc = subprocess.Popen(["C:\Program Files\Git\git-bash.exe", script_path, key_path],
                      bufsize=-1,
                      executable=None,
                      stdin=subprocess.PIPE,
@@ -99,4 +99,4 @@ def runGitBashAgent(keyPath):
                      shell=False,
                      cwd=path,
                      )
-    p.wait()
+    proc.wait()
