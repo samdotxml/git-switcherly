@@ -1,7 +1,7 @@
 from sshconf import read_ssh_config
 
 # add host entry to ~/.ssh/config
-def changeHost(path, username):
+def change_host(path, username):
     import os
 
     if not os.path.isfile(path):

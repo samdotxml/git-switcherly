@@ -100,3 +100,16 @@ def run_git_bash_agent(key_path):
                      cwd=path,
                      )
     proc.wait()
+
+def get_email(username):
+    file = open('config/config.json')
+    data = json.load(file)
+    file.close()
+
+    for profile in data["profiles"]:
+        if(profile["Github Username"] == username):
+            return profile["Github E-Mail"]
+
+def edit_git_globaconfig(username, email):
+    os.system("git config --global user.name \"{uname}\"".format(uname=username))
+    os.system("git config --global user.email \"{address}\"".format(address=email))
