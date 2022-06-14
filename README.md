@@ -9,6 +9,11 @@ Windows 10 | Linux | MacOS
 :------------ | :-------------| :-------------|
 :heavy_check_mark: | :heavy_check_mark: |  :no_entry:
 
+## Dependencies
+For the script to work you need following things installed on your computer:
+- Git (Obviously)
+- PIP-Packages from `requirements.txt`
+
 ## Why?
 Git Switcherly is a simple tool I wrote. I always had issues switching accounts on my Windows-Computer. I quickly sought for the best practices in regard to GitHub account management on a single PC. Upon looking at some tutorials, the whole (tedious) process annoyed me. I wrote a little tool that makes my life much easier. Maybe someone else's too.
 
