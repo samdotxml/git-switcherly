@@ -29,8 +29,9 @@ python3 main.py
 Pull requests are more than welcome. For major changes, please open an issue first to discuss what you would like to change. I wrote this tool in a day, so I know there are some things that could be improved.
 
 ## Todo
-- [] Refactoring
-- [] Import Identities/Accounts
+- [ ] Refactoring
+- [ ] Import Identities/Accounts
+- [ ] Support GPG (Signing Commits)
 
 ... potentially even more :)
 
