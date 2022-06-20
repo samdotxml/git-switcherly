@@ -6,5 +6,5 @@ cryptography == 3.4.7
 #Inquirer - For CLI
 inquirer == 2.9.2
 
-#SSHConf - Leightweight ssh config editor
+#SSHConf - Lightweight ssh config editor
 sshconf == 0.2.5
