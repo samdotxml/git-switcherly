@@ -1,6 +1,6 @@
 # Git Switcherly
 
-Git Switcherly is a lightweight GitHub account switcher. It allows you to create an RSA-Keypair for GitHub SSH-Access. Using GitHub via SSH is generally better than via HTTPS anyway. The Profiles get stored in the config file. You can then simply switch accounts within the CLI. In the background, all it does is change the `~/.ssh/config` file and use the `ssh-agent` to change the private key in your credentials manager.
+Git Switcherly is a lightweight GitHub account switcher. It allows you to create an RSA-Keypair for GitHub SSH-Access. Using GitHub via SSH is generally better than via HTTPS anyway. The Profiles get stored in the config file. You can then simply switch accounts within the CLI. In the background, all it does is change the `~/.ssh/config`.
 
 ## Platforms support
 I have tested the Tool on Windows. The inquirer package can sometimes be buggy in the cmd. If you're on Windows, then use the Git Bash Terminal. I haven't tested the tool on Linux, but it should work flawlessly.
