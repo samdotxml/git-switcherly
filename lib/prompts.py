@@ -32,11 +32,3 @@ def create_identity_prompt():
                 ]
 
     return inquirer.prompt(questions)
-
-def execute_shell_prompt():
-    questions = [
-        inquirer.Confirm('confirm',
-                    message="Run the command manually or not?", default=True),
-                ]
-
-    return inquirer.prompt(questions)

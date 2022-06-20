@@ -5,6 +5,7 @@ from pathlib import Path
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.backends import default_backend
+import pygit2
 
 def generate_key_str():
     # generate private/public key pair
@@ -83,24 +84,6 @@ def folder_exist():
 def get_folder():
     return str(Path.home().as_posix()) + "/.ssh/"
 
-#run git bash with command specified
-def run_git_bash_agent(key_path):
-    key_path = str(Path.home().as_posix()) + "/.ssh/" + key_path
-    path = Path().absolute().as_posix()
-    script_path = path + "/ssh-agent.sh"
-    proc = subprocess.Popen(["C:\Program Files\Git\git-bash.exe", script_path, key_path],
-                     bufsize=-1,
-                     executable=None,
-                     stdin=subprocess.PIPE,
-                     stdout=subprocess.PIPE,
-                     stderr=subprocess.PIPE,
-                     preexec_fn=None,
-                     close_fds=True,
-                     shell=False,
-                     cwd=path,
-                     )
-    proc.wait()
-
 def get_email(username):
     file = open('config/config.json')
     data = json.load(file)
@@ -111,5 +94,6 @@ def get_email(username):
             return profile["Github E-Mail"]
 
 def edit_git_globaconfig(username, email):
-    os.system("git config --global user.name \"{uname}\"".format(uname=username))
-    os.system("git config --global user.email \"{address}\"".format(address=email))
+    global_config = pygit2.Config.get_global_config()
+    global_config['user.name'] = username
+    global_config['user.email'] = email

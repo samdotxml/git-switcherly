@@ -40,24 +40,8 @@ def main():
                     print("No accounts in your config")
                     break
                 selected_username = select_identity_prompt(profiles)
-                cmd = "~/.ssh/id_rsa_{uname}".format(uname=selected_username)
                 print("\nYou selected {uname}".format(uname=selected_username))
-                print("You need to follow these steps:")
-                print("(1) If you haven't added the SSH public key to your Github account, then do it now!")
-                print("(2) Now the ssh-agent on your machine needs to add the key to the credential manager, you have following options:")
-                print("\t(i) Run following command: ssh-add {cmd}".format(cmd=cmd))
-                print("\t(ii) Use the automated key adder (BETA)\n")
-
-                if(execute_shell_prompt()['confirm']):
-                    if sys.platform in (('linux', 'linux2')):
-                        os.system("eval `ssh-agent -s`")
-                        os.system("ssh-add {cmd}".format(cmd=selected_username))
-                    elif sys.platform == "win32":
-                        run_git_bash_agent("id_rsa_{uname}".format(uname=selected_username))
-                    print("Done executing the commands. If it did not work, try entering the commands manually!")
-                else:
-                    print("Make sure to do all the steps")
-
+                
                 print("Editing ssh configuration file")
                 cfg_path = get_folder() + "/config"
                 change_host(cfg_path, selected_username)
